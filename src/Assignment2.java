@@ -33,16 +33,12 @@ public class Assignment2 {
 
 
            
-        SingleIntLinkedList test = new SingleIntLinkedList("666666");
-        SingleIntLinkedList test2 = new SingleIntLinkedList("666666");
-        System.out.println("The value of test is: " + test.toString());
-        System.out.println("The value of test is " + test.length() + " digits long.");
-        System.out.println("The value of test2 is: " + test2.toString());
-        System.out.println("The value of test2 is " + test2.length() + " digits long.");
-        System.out.printf("%s + %s = %s\n", 
+        SingleIntLinkedList test = new SingleIntLinkedList("12345678901234567890123456789012345678901234567890");
+        SingleIntLinkedList test2 = new SingleIntLinkedList("09876543210987654321098765432109876543210987654321");
+        System.out.printf("%s - %s = %s\n", 
         		test.toString(), 
         		test2.toString(), 
-        		SingleIntLinkedList.multiply(test, test2));
+        		SingleIntLinkedList.subtract(test, test2));
 	}
 
 }
