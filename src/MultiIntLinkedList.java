@@ -254,9 +254,9 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 				}
 				if (borrowVal >= 0) {
 					for (int j = i + 1; j < i  + travelDistance; j++) {
-						firstList.getNode(j).setVal(9);
+						firstList.getNode(j).setVal(999);
 					}
-					resultVal += 10;
+					resultVal += 1000;
 				} else {
 					resultVal *= -1;
 					result.setIsPositive(false);
@@ -340,13 +340,21 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	
 	public static MultiIntLinkedList divide(MultiIntLinkedList firstList, MultiIntLinkedList secondList)  {
 		MultiIntLinkedList result = new MultiIntLinkedList("0");
-		MultiIntLinkedList runner = MultiIntLinkedList.clone(secondList);
-		MultiIntLinkedList one = new MultiIntLinkedList("1");
 		
 		result.setIsPositive(firstList.isPositive() == secondList.isPositive());
+		
+		firstList = MultiIntLinkedList.clone(firstList);
+		firstList.setIsPositive(true);
+		secondList = MultiIntLinkedList.clone(secondList);
+		secondList.setIsPositive(true);
+		
 		firstList.setIsPositive(true);
 		secondList.setIsPositive(true);
 		
+		MultiIntLinkedList runner = MultiIntLinkedList.clone(secondList);
+		MultiIntLinkedList one = new MultiIntLinkedList("1");
+				
+	
 		while(firstList.compareTo(runner) >= 0) {
 			runner = MultiIntLinkedList.add(runner, secondList);
 			result = MultiIntLinkedList.add(result, one);

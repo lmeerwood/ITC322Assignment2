@@ -17,8 +17,11 @@ public class MultiIntLinkedNode {
 	}
 	
 	public void setVal(int val) {
-		if (val > 999 || val < -999) {
+		if (val > 999) {
 			throw new IllegalArgumentException("A MultiIntLinkedNode cannot hold more than three digits");
+		}
+		if (val < 0) {
+			throw new IllegalArgumentException("A MultiIntLinkedNode cannot hold a negative value. The sign should be stored in the list.");
 		}
 		this.val = val;
 	}
