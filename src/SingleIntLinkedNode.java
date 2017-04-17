@@ -5,10 +5,7 @@ public class SingleIntLinkedNode {
 	private SingleIntLinkedNode next = null;
 	
 	public SingleIntLinkedNode(int val) {
-		if (val > 9 || val < -9) {
-			throw new IllegalArgumentException("A SingleIntLinkedNode cannot hold more than one decimal number");
-		}
-		this.val = val;
+		this.setVal(val);
 	}
 	
 	public SingleIntLinkedNode() {

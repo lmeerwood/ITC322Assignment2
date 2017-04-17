@@ -1,15 +1,16 @@
 
-public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinkedList>{
-	private SingleIntLinkedNode head;
-	private SingleIntLinkedNode tail;
+public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedList>{
+	private MultiIntLinkedNode head;
+	private MultiIntLinkedNode tail;
 	
 	private boolean isPositive = true;
 	
-	public SingleIntLinkedList() {
+	public MultiIntLinkedList() {
 	}
 	
-	public SingleIntLinkedList(String val) {
+	public MultiIntLinkedList(String val) {
 		boolean first = true;
+		
 		
 		
 		if (val.charAt(0) == '-'){
@@ -17,20 +18,38 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 			val = val.substring(1);
 		}
 		
-		int stringLength = val.length();
+		val = val.replace(",", "");
+
+		int fullGroups = val.length() / 3;
+		int leftOver = val.length() % 3;
 		
-		for (int i = stringLength - 1; i >= 0; i--) {
-			char charVal = val.charAt(i);
-			if(charVal != ',') {
-				int intVal = Character.getNumericValue(charVal);
-				if (first) {
-					this.head = this.tail = new SingleIntLinkedNode(intVal);
-					first = false;
-				} else {
-					this.tail.setNext(new SingleIntLinkedNode(intVal));
-					this.tail = this.tail.getNext();
-				}
+		String piece;
+		
+		int substringBegin, substringEnd, intVal;
+		
+		for (int i = fullGroups - 1; i >= 0; i--) {
+			
+			substringBegin = leftOver + i * 3;
+			substringEnd = substringBegin + 3;
+			
+			piece = val.substring(substringBegin, substringEnd);
+			
+			
+			intVal = Integer.parseInt(piece);
+			if (first) {
+				this.head = this.tail = new MultiIntLinkedNode(intVal);
+				first = false;
+			} else {
+				this.tail.setNext(new MultiIntLinkedNode(intVal));
+				this.tail = this.tail.getNext();
 			}
+		}
+		
+		if (leftOver != 0) {
+			piece = val.substring(0, leftOver);
+			intVal = Integer.parseInt(piece);
+			this.tail.setNext(new MultiIntLinkedNode(intVal));
+			this.tail = this.tail.getNext();
 		}
 		
 		trimLeadingZeros();
@@ -38,13 +57,12 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	
 	public String toString() {
 		String output = "";
-		int digitCounter = 0;
-		for (SingleIntLinkedNode node = this.head; node != null; node = node.getNext()) {
-			if (digitCounter % 3 == 0 && digitCounter != 0) {
+		for (MultiIntLinkedNode node = this.head; node != null; node = node.getNext()) {
+			output = node.getVal() + output;
+			
+			if (node != tail) {
 				output = "," + output;
 			}
-			output = node.getVal() + output;
-			digitCounter++;
 		}
 		
 		if(!this.isPositive) {
@@ -56,15 +74,17 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	
 	
 	public int length() {
+		
 		int length = 0;
-		for (SingleIntLinkedNode node = this.head; node != null; node = node.getNext()) {
+		for (MultiIntLinkedNode node = this.head; node != null; node = node.getNext()) {
 			length++;
 		}
+		
 		return length;
 	}
 	
-	public SingleIntLinkedNode getNode(int position) {
-		SingleIntLinkedNode result = this.head;
+	public MultiIntLinkedNode getNode(int position) {
+		MultiIntLinkedNode result = this.head;
 		for(int i = 0; i < position; i++) {
 			try {
 				result = result.getNext();
@@ -76,17 +96,17 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 		return result;
 	}
 	
-	public static SingleIntLinkedList add(SingleIntLinkedList firstList, SingleIntLinkedList secondList) {
-		SingleIntLinkedList result = new SingleIntLinkedList();
+	public static MultiIntLinkedList add(MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
+		MultiIntLinkedList result = new MultiIntLinkedList();
 		
 		if (firstList.isPositive() && !secondList.isPositive()) {
-			secondList = SingleIntLinkedList.clone(secondList);
+			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(true);
-			return SingleIntLinkedList.subtract(firstList, secondList);
+			return MultiIntLinkedList.subtract(firstList, secondList);
 		} else if (!firstList.isPositive() && secondList.isPositive()) {
-			firstList = SingleIntLinkedList.clone(firstList);
+			firstList = MultiIntLinkedList.clone(firstList);
 			firstList.setIsPositive(true);
-			return SingleIntLinkedList.subtract(secondList, firstList);
+			return MultiIntLinkedList.subtract(secondList, firstList);
 		} else if (!firstList.isPositive() && !secondList.isPositive()) {
 			result.setIsPositive(false);
 		}
@@ -112,7 +132,7 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 			}
 			
 			resultVal = firstVal + secondVal + carryOver;
-			carryOver = SingleIntLinkedList.carryOverValue(resultVal);
+			carryOver = MultiIntLinkedList.carryOverValue(resultVal);
 			resultVal = resultVal - (carryOver * 10);
 			
 			result.addNode(resultVal);
@@ -128,26 +148,26 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 		return result;
 	}
 	
-	public static SingleIntLinkedList subtract (SingleIntLinkedList firstList, SingleIntLinkedList secondList) {
+	public static MultiIntLinkedList subtract (MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 		
-		SingleIntLinkedList result = new SingleIntLinkedList();
+		MultiIntLinkedList result = new MultiIntLinkedList();
 		
 		if(!firstList.isPositive() && !secondList.isPositive()) {
-			secondList = SingleIntLinkedList.clone(secondList);
+			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(!secondList.isPositive());
-			return SingleIntLinkedList.subtract(secondList, firstList);
+			return MultiIntLinkedList.subtract(secondList, firstList);
 		} else if(!firstList.isPositive() ^ !secondList.isPositive()) {
-			secondList = SingleIntLinkedList.clone(secondList);
+			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(!secondList.isPositive());
-			return SingleIntLinkedList.add(firstList, secondList);
+			return MultiIntLinkedList.add(firstList, secondList);
 		} else if(firstList.compareTo(secondList) == -1) {
-			SingleIntLinkedList temp = SingleIntLinkedList.clone(firstList);
-			firstList = SingleIntLinkedList.clone(secondList);
+			MultiIntLinkedList temp = MultiIntLinkedList.clone(firstList);
+			firstList = MultiIntLinkedList.clone(secondList);
 			firstList.setIsPositive(true);
-			secondList = SingleIntLinkedList.clone(temp);
+			secondList = MultiIntLinkedList.clone(temp);
 			result.setIsPositive(false);
 		} else {
-			firstList = SingleIntLinkedList.clone(firstList);
+			firstList = MultiIntLinkedList.clone(firstList);
 		}
 		
 		
@@ -196,8 +216,8 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 				}
 			}
 			
-			carryOver = SingleIntLinkedList.carryOverValue(resultVal);
-			resultVal = resultVal - (carryOver * 10);
+			carryOver = MultiIntLinkedList.carryOverValue(resultVal);
+			resultVal = resultVal - (carryOver * 1000);
 			
 			result.addNode(resultVal);
 			
@@ -213,19 +233,19 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 		
 	}
 	
-	public static SingleIntLinkedList multiply (SingleIntLinkedList firstList, SingleIntLinkedList secondList) {
+	public static MultiIntLinkedList multiply (MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 		
-		SingleIntLinkedList result = new SingleIntLinkedList();
-		SingleIntLinkedList stepList;
+		MultiIntLinkedList result = new MultiIntLinkedList();
+		MultiIntLinkedList stepList;
 		boolean answerIsPositive = (firstList.isPositive()==secondList.isPositive());
 		
 		if(!firstList.isPositive()) {
-			firstList = SingleIntLinkedList.clone(firstList);
+			firstList = MultiIntLinkedList.clone(firstList);
 			firstList.setIsPositive(true);
 		}
 		
 		if(!secondList.isPositive()) {
-			secondList = SingleIntLinkedList.clone(secondList);
+			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(true);
 		}
 		
@@ -236,16 +256,16 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 		int firstVal, secondVal, resultVal;
 		
 		for(int i = 0; i < firstLength; i++){
-			stepList = new SingleIntLinkedList();
-			SingleIntLinkedList.padWithZeros(stepList, i);
+			stepList = new MultiIntLinkedList();
+			MultiIntLinkedList.padWithZeros(stepList, i);
 			
 			for (int j = 0; j < secondLength; j++) {
 				firstVal = firstList.getNode(i).getVal();
 				secondVal = secondList.getNode(j).getVal();
 				
 				resultVal = firstVal * secondVal + carryOver;
-				carryOver = SingleIntLinkedList.carryOverValue(resultVal);
-				resultVal = resultVal - (carryOver * 10);
+				carryOver = MultiIntLinkedList.carryOverValue(resultVal);
+				resultVal = resultVal - (carryOver * 1000);
 				
 				
 				stepList.addNode(resultVal);
@@ -256,7 +276,7 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 				stepList.addNode(carryOver);
 				carryOver = 0;
 			}
-			result = SingleIntLinkedList.add(stepList, result);
+			result = MultiIntLinkedList.add(stepList, result);
 		}
 		
 		result.trimLeadingZeros();
@@ -266,21 +286,21 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	}
 	
 	private static int carryOverValue(int val) {
-		val = val - (val % 10);
-		val = val/10;
+		val = val - (val % 1000);
+		val = val/1000;
 		return val;
 	}
 	
 	private void addNode(int val) {
 		if (this.head == null) {
-			this.head = this.tail = new SingleIntLinkedNode(val);
+			this.head = this.tail = new MultiIntLinkedNode(val);
 		} else {
-			this.tail.setNext(new SingleIntLinkedNode(val));
+			this.tail.setNext(new MultiIntLinkedNode(val));
 			this.tail = this.tail.getNext();
 		}
 	}
 	
-	private static void padWithZeros(SingleIntLinkedList list, int padding) {
+	private static void padWithZeros(MultiIntLinkedList list, int padding) {
 		for (int i = 0; i < padding; i++) {
 			list.addNode(0);
 		}
@@ -295,21 +315,20 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	}
 
 
-	public static SingleIntLinkedList clone(SingleIntLinkedList clonee) {
-		return new SingleIntLinkedList(clonee.toString());
+	public static MultiIntLinkedList clone(MultiIntLinkedList clonee) {
+		return new MultiIntLinkedList(clonee.toString());
 	}
 	
 	private void trimLeadingZeros() {
-
+		
 		while(this.tail.getVal() == 0 && this.length() != 1) {
 			this.tail = getNode(this.length() - 2);
 			this.tail.setNext(null);
-
 		}
 	}
 
 	@Override
-	public int compareTo(SingleIntLinkedList otherList) {
+	public int compareTo(MultiIntLinkedList otherList) {
 		int length = (this.length() > otherList.length()) ? this.length() : otherList.length();
 		int negativeModifier = 1;
 		
