@@ -265,6 +265,34 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 		return result;
 	}
 	
+	public static SingleIntLinkedList divide(SingleIntLinkedList firstList, SingleIntLinkedList secondList)  {
+		SingleIntLinkedList result = new SingleIntLinkedList("0");
+		
+		result.setIsPositive(firstList.isPositive() == secondList.isPositive());
+		
+		firstList = SingleIntLinkedList.clone(firstList);
+		firstList.setIsPositive(true);
+		secondList = SingleIntLinkedList.clone(secondList);
+		secondList.setIsPositive(true);
+		
+		firstList.setIsPositive(true);
+		secondList.setIsPositive(true);
+		
+		SingleIntLinkedList runner = SingleIntLinkedList.clone(secondList);
+		SingleIntLinkedList one = new SingleIntLinkedList("1");
+				
+	
+		while(firstList.compareTo(runner) >= 0) {
+			runner = SingleIntLinkedList.add(runner, secondList);
+			result = SingleIntLinkedList.add(result, one);
+			System.out.println(result.length());
+		}
+		
+		return result;
+		
+		
+	}
+	
 	private static int carryOverValue(int val) {
 		val = val - (val % 10);
 		val = val/10;
