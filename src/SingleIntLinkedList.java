@@ -256,12 +256,12 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 				stepList.addNode(carryOver);
 				carryOver = 0;
 			}
-			System.out.printf("stepList: %s\nresult: %s\n", stepList, result);
 			result = SingleIntLinkedList.add(stepList, result);
 		}
 		
 		result.trimLeadingZeros();
 		result.setIsPositive(answerIsPositive);
+		int length = result.length();
 		return result;
 	}
 	
@@ -300,10 +300,11 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	}
 	
 	private void trimLeadingZeros() {
-		if(this.tail.getVal() == 0) {
+		int length = this.length();
+		while(this.tail.getVal() == 0 && this.length() != 1) {
 			this.tail = getNode(this.length() - 2);
 			this.tail.setNext(null);
-			this.trimLeadingZeros();
+			length = this.length();
 		}
 	}
 
