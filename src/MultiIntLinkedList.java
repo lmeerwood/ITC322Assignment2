@@ -22,15 +22,16 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	 * @param val
 	 *   The initial value to set the list to.
 	 * @precondition
-	 *   The val string has 0-9 and ',' and '-' in it
+	 *   The val string has only 0-9 and ',' and '-' in it
 	 * @postcondition
 	 *   A linked list with the value set as val
+	 * 
 	 * 
 	 */
 	public MultiIntLinkedList(String val) {
 		boolean first = true;
 		
-		if(!val.matches("^[0-9,-]*$")){
+		if(!val.matches("^-?[0-9,]+$")){
 			throw new IllegalArgumentException("Invalid characters found in string");
 		}
 		
@@ -69,8 +70,12 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		if (leftOver != 0) {
 			piece = val.substring(0, leftOver);
 			intVal = Integer.parseInt(piece);
-			this.tail.setNext(new MultiIntLinkedNode(intVal));
-			this.tail = this.tail.getNext();
+			if (fullGroups > 0) {
+				this.tail.setNext(new MultiIntLinkedNode(intVal));
+				this.tail = this.tail.getNext();
+			} else {
+				this.head = this.tail = new MultiIntLinkedNode(intVal);
+			}
 		}
 		
 		trimLeadingZeros();
@@ -82,10 +87,11 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	public String toString() {
 		String output = "";
 		for (MultiIntLinkedNode node = this.head; node != null; node = node.getNext()) {
-			output = node.getVal() + output;
 			
 			if (node != tail) {
-				output = "," + output;
+				output = "," + String.format("%03d", node.getVal()) + output;
+			} else {
+				output = node.getVal() + output;
 			}
 		}
 		
@@ -329,6 +335,26 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		result.setIsPositive(answerIsPositive);
 
 		return result;
+	}
+	
+	
+	public static MultiIntLinkedList divide(MultiIntLinkedList firstList, MultiIntLinkedList secondList)  {
+		MultiIntLinkedList result = new MultiIntLinkedList("0");
+		MultiIntLinkedList runner = MultiIntLinkedList.clone(secondList);
+		MultiIntLinkedList one = new MultiIntLinkedList("1");
+		
+		result.setIsPositive(firstList.isPositive() == secondList.isPositive());
+		firstList.setIsPositive(true);
+		secondList.setIsPositive(true);
+		
+		while(firstList.compareTo(runner) >= 0) {
+			runner = MultiIntLinkedList.add(runner, secondList);
+			result = MultiIntLinkedList.add(result, one);
+		}
+		
+		return result;
+		
+		
 	}
 	
 	/**
