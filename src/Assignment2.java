@@ -32,7 +32,7 @@ public class Assignment2 {
        //write your code here
 
         MultiIntLinkedList test = new MultiIntLinkedList("12341");
-        MultiIntLinkedList test2 = new MultiIntLinkedList("534523");
+        MultiIntLinkedList test2 = new MultiIntLinkedList("-543,4,5,2,3");
         
         System.out.printf("%s + %s = %s\n", test, test2, MultiIntLinkedList.add(test, test2));
         System.out.printf("%s - %s = %s\n", test, test2, MultiIntLinkedList.subtract(test, test2));

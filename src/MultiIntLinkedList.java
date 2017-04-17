@@ -1,17 +1,38 @@
 
+/**
+ * @author Leonard Meerwood
+ *
+ */
 public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedList>{
 	private MultiIntLinkedNode head;
 	private MultiIntLinkedNode tail;
 	
 	private boolean isPositive = true;
 	
+	/**
+	 * Initialize an empty list with no value.
+	 * @postcondition
+	 *   Empty list with no value  
+	 */
 	public MultiIntLinkedList() {
 	}
 	
+	/**
+	 * Initialize a linked list with an intial value
+	 * @param val
+	 *   The initial value to set the list to.
+	 * @precondition
+	 *   The val string has 0-9 and ',' and '-' in it
+	 * @postcondition
+	 *   A linked list with the value set as val
+	 * 
+	 */
 	public MultiIntLinkedList(String val) {
 		boolean first = true;
 		
-		
+		if(!val.matches("^[0-9,-]*$")){
+			throw new IllegalArgumentException("Invalid characters found in string");
+		}
 		
 		if (val.charAt(0) == '-'){
 			isPositive = false;
@@ -55,6 +76,9 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		trimLeadingZeros();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String output = "";
 		for (MultiIntLinkedNode node = this.head; node != null; node = node.getNext()) {
@@ -73,6 +97,9 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public int length() {
 		
 		int length = 0;
@@ -83,6 +110,10 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		return length;
 	}
 	
+	/**
+	 * @param position
+	 * @return
+	 */
 	public MultiIntLinkedNode getNode(int position) {
 		MultiIntLinkedNode result = this.head;
 		for(int i = 0; i < position; i++) {
@@ -96,6 +127,11 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		return result;
 	}
 	
+	/**
+	 * @param firstList
+	 * @param secondList
+	 * @return
+	 */
 	public static MultiIntLinkedList add(MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 		MultiIntLinkedList result = new MultiIntLinkedList();
 		
@@ -148,6 +184,11 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		return result;
 	}
 	
+	/**
+	 * @param firstList
+	 * @param secondList
+	 * @return
+	 */
 	public static MultiIntLinkedList subtract (MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 		
 		MultiIntLinkedList result = new MultiIntLinkedList();
@@ -233,6 +274,11 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		
 	}
 	
+	/**
+	 * @param firstList
+	 * @param secondList
+	 * @return
+	 */
 	public static MultiIntLinkedList multiply (MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 		
 		MultiIntLinkedList result = new MultiIntLinkedList();
@@ -285,12 +331,19 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		return result;
 	}
 	
+	/**
+	 * @param val
+	 * @return
+	 */
 	private static int carryOverValue(int val) {
 		val = val - (val % 1000);
 		val = val/1000;
 		return val;
 	}
 	
+	/**
+	 * @param val
+	 */
 	private void addNode(int val) {
 		if (this.head == null) {
 			this.head = this.tail = new MultiIntLinkedNode(val);
@@ -300,25 +353,42 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		}
 	}
 	
+	/**
+	 * @param list
+	 * @param padding
+	 */
 	private static void padWithZeros(MultiIntLinkedList list, int padding) {
 		for (int i = 0; i < padding; i++) {
 			list.addNode(0);
 		}
 	}
 	
+	/**
+	 * @param positive
+	 */
 	private void setIsPositive(boolean positive) {
 		this.isPositive = positive;
 	}
 	
+	/**
+	 * @return
+	 */
 	private boolean isPositive() {
 		return this.isPositive;
 	}
 
 
+	/**
+	 * @param clonee
+	 * @return
+	 */
 	public static MultiIntLinkedList clone(MultiIntLinkedList clonee) {
 		return new MultiIntLinkedList(clonee.toString());
 	}
 	
+	/**
+	 * 
+	 */
 	private void trimLeadingZeros() {
 		
 		while(this.tail.getVal() == 0 && this.length() != 1) {
@@ -327,6 +397,9 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(MultiIntLinkedList otherList) {
 		int length = (this.length() > otherList.length()) ? this.length() : otherList.length();
