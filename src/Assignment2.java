@@ -31,8 +31,8 @@ public class Assignment2 {
 
        //write your code here
 
-        MultiIntLinkedList test = new MultiIntLinkedList("20000");
-        MultiIntLinkedList test2 = new MultiIntLinkedList("4000");
+        MultiIntLinkedList test = new MultiIntLinkedList("4000");
+        MultiIntLinkedList test2 = new MultiIntLinkedList("20");
         
         System.out.printf("%s + %s = %s\n", test, test2, MultiIntLinkedList.add(test, test2));
         System.out.printf("%s - %s = %s\n", test, test2, MultiIntLinkedList.subtract(test, test2));

@@ -175,7 +175,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 			
 			resultVal = firstVal + secondVal + carryOver;
 			carryOver = MultiIntLinkedList.carryOverValue(resultVal);
-			resultVal = resultVal - (carryOver * 10);
+			resultVal = resultVal - (carryOver * 1000);
 			
 			result.addNode(resultVal);
 			
