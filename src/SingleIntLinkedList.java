@@ -71,17 +71,16 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	 */
 	public String toString() {
 		String output = "";
-		boolean first = true;
+		int digitCounter = 0;
 
 		// loops through the nodes and prints the value to a string, starting
 		// with the least significant digits.
 		for (IntLinkedNode node = this.head; node != null; node = node.getNext()) {
-			if (digitCounter % 3 == 0 && !first) {
+			if (digitCounter % 3 == 0 && digitCounter != 0) {
 				output = "," + output;
-			} else {
-				first = false;
-			}
+			} 
 			output = node.getVal() + output;
+			digitCounter++;
 		}
 
 		if(!this.isPositive) {

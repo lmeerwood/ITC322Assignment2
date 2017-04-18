@@ -4,7 +4,7 @@ public class IntLinkedNode {
 	private int val;
 	private IntLinkedNode next = null;
 
-	public SingleIntLinkedNode(int val) {
+	public IntLinkedNode(int val) {
 		this.setVal(val);
 	}
 
@@ -13,7 +13,7 @@ public class IntLinkedNode {
 																			+" an empty constructor");
 	}
 
-	public int getVal()
+	public int getVal() {
 		return this.val;
 	}
 

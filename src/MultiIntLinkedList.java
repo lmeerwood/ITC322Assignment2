@@ -139,6 +139,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 			} catch (NullPointerException e) {
 				throw e;
 			}
+		}
 
 		return result;
 	}
