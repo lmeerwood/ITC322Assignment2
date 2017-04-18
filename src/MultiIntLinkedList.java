@@ -444,7 +444,12 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
+	 * Adds a new int holding node to the end of the tail, thus extending the
+	 * value of the list.
 	 * @param val
+	 *   the value to be added to the list
+	 * @note
+	 *   Will fail if there is not enough memory to create a new node.
 	 */
 	private void addNode(int val) {
 		if (this.head == null) {
@@ -456,8 +461,12 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
+	 * This is used in the multiplication function to pad the offset needed with
+	 * zeros
 	 * @param list
+	 *   The list to pad
 	 * @param padding
+	 *   How many nodes to pad with zeros
 	 */
 	private static void padWithZeros(MultiIntLinkedList list, int padding) {
 		for (int i = 0; i < padding; i++) {
@@ -482,15 +491,20 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 
 
 	/**
+	 * A static function to clone a list.
 	 * @param clonee
+	 *   List to be cloned
 	 * @return
+	 *   A clone of the list
 	 */
 	public static MultiIntLinkedList clone(MultiIntLinkedList clonee) {
 		return new MultiIntLinkedList(clonee.toString());
 	}
 
 	/**
-	 *
+	 *   This function removes leading nodes that are empty. This prevents
+	 *   Storing values such as 000,100,000. Also useful for saving memory by
+	 *   removing unneeded nodes.
 	 */
 	private void trimLeadingZeros() {
 
@@ -508,6 +522,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		int length = (this.length() > otherList.length()) ? this.length() : otherList.length();
 		int negativeModifier = 1;
 
+		//Some quick checks to see which list is bigger without complex calulations
 		if (this.isPositive() && !otherList.isPositive()){
 			return 1;
 		} else if (!this.isPositive() && otherList.isPositive()) {
@@ -518,6 +533,9 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 
 		int thisVal, otherListVal;
 
+		//This compares each node, starting with the most significant node.
+		//When a bigger node is found, the corresponding value is returned.
+		//If no value found, 0 is return for equal.
 		for (int i = length - 1; i >= 0; i--) {
 			try {
 				thisVal = this.getNode(i).getVal();
