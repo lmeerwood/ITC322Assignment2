@@ -1,5 +1,8 @@
 
 /**
+ * A linkedList class that makes use of the IntLinkedNode class to store its value.
+ * Stores the value in single digits and starts with the least significant
+ * value first.
  * @author Leonard Meerwood
  *
  */

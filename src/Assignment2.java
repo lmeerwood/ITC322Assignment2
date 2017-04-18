@@ -1,4 +1,6 @@
 /**
+ * The driver of the demo display. This makes use of the Assignment classes
+ * and displays the results accordingly.
  * @author Leonard Meerwood
  *
  */
@@ -8,17 +10,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class Assignment2 {
 
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
 		
 		final String os = System.getProperty("os.name");
 		boolean fileLoaded = false;
 		
         String number1 = null, number2 = null;
+        
+        //Scan the file in if a file was passed in via command line argument.
         try {
         	Scanner in = null;
         	in = new Scanner(new File(args[0]));
@@ -36,6 +39,7 @@ public class Assignment2 {
         int input = 0;
         Scanner sc = new Scanner(System.in);
         
+        // A loop to display a menu based on various context.
         while(input != 6) {
         	input = sc.nextInt();
         	
@@ -86,6 +90,13 @@ public class Assignment2 {
 	}
 	
 	
+	/**
+	 * Generate the string that holds the menu details.
+	 * @param stage
+	 *  Current stage
+	 * @param extra
+	 *   String passed in for display. Used for returning results.
+	 */
 	private static void menu (int stage, String extra) {
 		String headLine;
 		
@@ -115,6 +126,16 @@ public class Assignment2 {
 		
 	}
 	
+	/**
+	 * Takes two numbers in string form and then returns a formatted
+	 * string with the results.
+	 * @param number1
+	 *  first number
+	 * @param number2
+	 *  second number
+	 * @return
+	 *  Formatted string with results
+	 */
 	private static String displaySILL(String number1, String number2) {
 		SingleIntLinkedList firstList = new SingleIntLinkedList(number1);
 		SingleIntLinkedList secondList = new SingleIntLinkedList(number2);
@@ -126,6 +147,16 @@ public class Assignment2 {
 				, secondList, secondList.length());
 	}
 
+	/**
+	 * Takes two numbers in string form and then returns a formatted
+	 * string with the results of the arithimatic operations.
+	 * @param number1
+	 *  first number
+	 * @param number2
+	 *  second number
+	 * @return
+	 *  Formatted string with results
+	 */
 	private static String displaySILLOperations(String number1, String number2) {
 		SingleIntLinkedList firstList = new SingleIntLinkedList(number1);
 		SingleIntLinkedList secondList = new SingleIntLinkedList(number2);
@@ -141,6 +172,16 @@ public class Assignment2 {
 				//, firstList, secondList, SingleIntLinkedList.divide(firstList, secondList));
 	}
 	
+	/**
+	 * Takes two numbers in string form and then returns a formatted
+	 * string with the results.
+	 * @param number1
+	 *  first number
+	 * @param number2
+	 *  second number
+	 * @return
+	 *  Formatted string with results
+	 */
 	private static String displayMILL(String number1, String number2) {
 		MultiIntLinkedList firstList = new MultiIntLinkedList(number1);
 		MultiIntLinkedList secondList = new MultiIntLinkedList(number2);
@@ -152,7 +193,16 @@ public class Assignment2 {
 				, secondList, secondList.length());
 	}
 
-	private static String displayMILLOperations(String number1, String number2) {
+	/**
+	 * Takes two numbers in string form and then returns a formatted
+	 * string with the results of the arithimatic operations.
+	 * @param number1
+	 *  first number
+	 * @param number2
+	 *  second number
+	 * @return
+	 *  Formatted string with results
+	 */ static String displayMILLOperations(String number1, String number2) {
 		MultiIntLinkedList firstList = new MultiIntLinkedList(number1);
 		MultiIntLinkedList secondList = new MultiIntLinkedList(number2);
 		
