@@ -4,8 +4,8 @@
  *
  */
 public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedList>{
-	private MultiIntLinkedNode head;
-	private MultiIntLinkedNode tail;
+	private IntLinkedNode head;
+	private IntLinkedNode tail;
 
 	private boolean isPositive = true;
 
@@ -63,10 +63,10 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 
 			intVal = Integer.parseInt(piece);
 			if (first) {
-				this.head = this.tail = new MultiIntLinkedNode(intVal);
+				this.head = this.tail = new IntLinkedNode(intVal);
 				first = false;
 			} else {
-				this.tail.setNext(new MultiIntLinkedNode(intVal));
+				this.tail.setNext(new IntLinkedNode(intVal));
 				this.tail = this.tail.getNext();
 			}
 		}
@@ -76,10 +76,10 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 			piece = val.substring(0, leftOver);
 			intVal = Integer.parseInt(piece);
 			if (fullGroups > 0) {
-				this.tail.setNext(new MultiIntLinkedNode(intVal));
+				this.tail.setNext(new IntLinkedNode(intVal));
 				this.tail = this.tail.getNext();
 			} else {
-				this.head = this.tail = new MultiIntLinkedNode(intVal);
+				this.head = this.tail = new IntLinkedNode(intVal);
 			}
 		}
 
@@ -94,7 +94,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 
 		// loops through the nodes and prints the value to a string, starting
 		// with the least significant digits.
-		for (MultiIntLinkedNode node = this.head; node != null; node = node.getNext()) {
+		for (IntLinkedNode node = this.head; node != null; node = node.getNext()) {
 			if (node != tail) {
 				output = "," + String.format("%03d", node.getVal()) + output;
 			} else {
@@ -117,7 +117,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	public int length() {
 
 		int length = 0;
-		for (MultiIntLinkedNode node = this.head; node != null; node = node.getNext()) {
+		for (IntLinkedNode node = this.head; node != null; node = node.getNext()) {
 			length++;
 		}
 
@@ -131,8 +131,8 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	 * @return
 	 *   node at specific position
 	 */
-	public MultiIntLinkedNode getNode(int position) {
-		MultiIntLinkedNode result = this.head;
+	public IntLinkedNode getNode(int position) {
+		IntLinkedNode result = this.head;
 		for(int i = 0; i < position; i++) {
 			try {
 				result = result.getNext();
@@ -446,10 +446,14 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	 *   Will fail if there is not enough memory to create a new node.
 	 */
 	private void addNode(int val) {
+		if (val > 999) {
+			throw new IllegalArgumentException("A node in MultiLinkedList cannot hold"
+																			+ " more than three digits");
+		}
 		if (this.head == null) {
-			this.head = this.tail = new MultiIntLinkedNode(val);
+			this.head = this.tail = new IntLinkedNode(val);
 		} else {
-			this.tail.setNext(new MultiIntLinkedNode(val));
+			this.tail.setNext(new IntLinkedNode(val));
 			this.tail = this.tail.getNext();
 		}
 	}

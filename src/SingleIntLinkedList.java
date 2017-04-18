@@ -4,8 +4,8 @@
  *
  */
 public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinkedList>{
-	private SingleIntLinkedNode head;
-	private SingleIntLinkedNode tail;
+	private IntLinkedNode head;
+	private IntLinkedNode tail;
 
 	private boolean isPositive = true;
 
@@ -55,10 +55,10 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 
 			intVal = Character.getNumericValue(charVal);
 			if (first) {
-				this.head = this.tail = new SingleIntLinkedNode(intVal);
+				this.head = this.tail = new IntLinkedNode(intVal);
 				first = false;
 			} else {
-				this.tail.setNext(new SingleIntLinkedNode(intVal));
+				this.tail.setNext(new IntLinkedNode(intVal));
 				this.tail = this.tail.getNext();
 			}
 		}
@@ -75,7 +75,7 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 
 		// loops through the nodes and prints the value to a string, starting
 		// with the least significant digits.
-		for (SingleIntLinkedNode node = this.head; node != null; node = node.getNext()) {
+		for (IntLinkedNode node = this.head; node != null; node = node.getNext()) {
 			if (digitCounter % 3 == 0 && !first) {
 				output = "," + output;
 			} else {
@@ -99,7 +99,7 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	 */
 	public int length() {
 		int length = 0;
-		for (SingleIntLinkedNode node = this.head; node != null; node = node.getNext()) {
+		for (IntLinkedNode node = this.head; node != null; node = node.getNext()) {
 			length++;
 		}
 		return length;
@@ -112,8 +112,8 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	 * @return
 	 *   node at specific position
 	 */
-	public SingleIntLinkedNode getNode(int position) {
-		SingleIntLinkedNode result = this.head;
+	public IntLinkedNode getNode(int position) {
+		IntLinkedNode result = this.head;
 		for(int i = 0; i < position; i++) {
 			try {
 				result = result.getNext();
@@ -428,10 +428,15 @@ public class SingleIntLinkedList implements Cloneable, Comparable<SingleIntLinke
 	 *   Will fail if there is not enough memory to create a new node.
 	 */
 	private void addNode(int val) {
+		if (val > 9) {
+			throw new IllegalArgumentException("A node in a SingleIntLinkedList cannot"
+																				+"hold more than one digit");
+		}
+
 		if (this.head == null) {
-			this.head = this.tail = new SingleIntLinkedNode(val);
+			this.head = this.tail = new IntLinkedNode(val);
 		} else {
-			this.tail.setNext(new SingleIntLinkedNode(val));
+			this.tail.setNext(new IntLinkedNode(val));
 			this.tail = this.tail.getNext();
 		}
 	}
