@@ -25,8 +25,6 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	 *   The val string has only 0-9 and ',' and '-' in it
 	 * @postcondition
 	 *   A linked list with the value set as val
-	 *
-	 *
 	 */
 	public MultiIntLinkedList(String val) {
 		boolean first = true;
@@ -207,8 +205,6 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 			resultVal = resultVal - (carryOver * 1000);
 
 			result.addNode(resultVal);
-
-
 		}
 
 		if (carryOver != 0) {
@@ -220,7 +216,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
-	 * A function too subtract list2 from list1.
+	 * A function to subtract list2 from list1.
 	 * @param  MultiIntLinkedList firstList
 	 *  List being subtracted from.
 	 * @param  MultiIntLinkedList secondList
@@ -425,8 +421,6 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		}
 
 		return result;
-
-
 	}
 
 	/**
@@ -483,7 +477,9 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
+	 * Returns te posititivity of the list
 	 * @return
+	 * 	Posititivity of list
 	 */
 	private boolean isPositive() {
 		return this.isPositive;
@@ -507,7 +503,6 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	 *   removing unneeded nodes.
 	 */
 	private void trimLeadingZeros() {
-
 		while(this.tail.getVal() == 0 && this.length() != 1) {
 			this.tail = getNode(this.length() - 2);
 			this.tail.setNext(null);
