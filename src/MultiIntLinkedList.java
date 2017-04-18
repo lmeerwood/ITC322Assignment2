@@ -146,25 +146,40 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
+	 * A function to add two list together
 	 * @param firstList
+	 *   The first list to add
 	 * @param secondList
+	 *   The second list to add
 	 * @return
+	 *   A new MultiIntLinkedList that holds the value of firstList + secondList
 	 */
 	public static MultiIntLinkedList add(MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 		MultiIntLinkedList result = new MultiIntLinkedList();
+
+		/*
+			This block checks to make sure the numbers are in the right set up.
+			The list needs to be in: A+B or -(A+B). If invalid set up then the list
+			are rearranged and sent to the correct function. While they are
+			rearranged they are still mathamatically equivilent.
+		 */
 
 		if (firstList.isPositive() && !secondList.isPositive()) {
 			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(true);
 			return MultiIntLinkedList.subtract(firstList, secondList);
+
 		} else if (!firstList.isPositive() && secondList.isPositive()) {
 			firstList = MultiIntLinkedList.clone(firstList);
 			firstList.setIsPositive(true);
 			return MultiIntLinkedList.subtract(secondList, firstList);
+
 		} else if (!firstList.isPositive() && !secondList.isPositive()) {
 			result.setIsPositive(false);
+
 		}
 
+		//Variables to help add the list together.
 		int carryOver = 0;
 		int firstLength = firstList.length();
 		int secondLength = secondList.length();
@@ -172,6 +187,8 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 
 		int firstVal, secondVal, resultVal;
 
+		//For each block, add the two matching nodes. Any value over 1000 is stored
+		//in the carryover and added to the next nodes.
 		for(int i = 0; i < length; i++){
 			try {
 				firstVal = firstList.getNode(i).getVal();
@@ -203,33 +220,47 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
-	 * @param firstList
-	 * @param secondList
+	 * A function too subtract list2 from list1.
+	 * @param  MultiIntLinkedList firstList
+	 *  List being subtracted from.
+	 * @param  MultiIntLinkedList secondList
+	 *   Value subtracted from firstList
 	 * @return
+	 *   A MultiIntLinkedList holding the answer.
 	 */
 	public static MultiIntLinkedList subtract (MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
 
 		MultiIntLinkedList result = new MultiIntLinkedList();
 
+		/*
+			This block checks to make sure the numbers are in the right set up.
+			The list needs to be in: A-B. If invalid set up then the list
+			are rearranged and sent to the correct function. While they are
+			rearranged they are still mathamatically equivilent.
+		 */
+
 		if(!firstList.isPositive() && !secondList.isPositive()) {
 			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(!secondList.isPositive());
 			return MultiIntLinkedList.subtract(secondList, firstList);
+
 		} else if(!firstList.isPositive() ^ !secondList.isPositive()) {
 			secondList = MultiIntLinkedList.clone(secondList);
 			secondList.setIsPositive(!secondList.isPositive());
 			return MultiIntLinkedList.add(firstList, secondList);
+
 		} else if(firstList.compareTo(secondList) == -1) {
 			MultiIntLinkedList temp = MultiIntLinkedList.clone(firstList);
 			firstList = MultiIntLinkedList.clone(secondList);
 			firstList.setIsPositive(true);
 			secondList = MultiIntLinkedList.clone(temp);
 			result.setIsPositive(false);
+
 		} else {
 			firstList = MultiIntLinkedList.clone(firstList);
 		}
 
-
+		//Variables to help subtract the list.
 		int carryOver = 0;
 		int firstLength = firstList.length();
 		int secondLength = secondList.length();
@@ -237,6 +268,8 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 
 		int firstVal, secondVal, resultVal;
 
+		//For each block, subtract the two matching nodes. If result is less than
+		//0, then borrow the next value you can.
 		for(int i = 0; i < length; i++){
 			try {
 				firstVal = firstList.getNode(i).getVal();
@@ -293,11 +326,16 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
-	 * @param firstList
-	 * @param secondList
+	 * A program to multiply two list together.
+	 * @param  MultiIntLinkedList firstList
+	 *   First list to be multiplied
+	 * @param  MultiIntLinkedList secondList
+	 *   Second list to be multiplied
 	 * @return
+	 * 	 Result of the multiplication stored in a MultiIntLinkedList
 	 */
-	public static MultiIntLinkedList multiply (MultiIntLinkedList firstList, MultiIntLinkedList secondList) {
+	public static MultiIntLinkedList multiply (MultiIntLinkedList firstList,
+																						 MultiIntLinkedList secondList) {
 
 		MultiIntLinkedList result = new MultiIntLinkedList();
 		MultiIntLinkedList stepList;
@@ -349,7 +387,21 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 		return result;
 	}
 
-
+	/**
+	 * A program to divde two list.
+	 * @param  MultiIntLinkedList firstList
+	 *   List that is the dividend
+	 * @param  MultiIntLinkedList secondList
+	 *   List that is the Divisor
+	 * @return
+	 * 	 Result of the division stored in a MultiIntLinkedList
+	 * @note
+	 * 	 This method of division is EXTREMELY inefficient. It works when the
+	 * 	 difference between dividend and divisor is small, however anything where
+	 * 	 the dividend is more than 1000 times bigger than divisor will take
+	 * 	 far too long to be useful. For this reason is has not been implemented
+	 * 	 in the assignment demonstration example.
+	 */
 	public static MultiIntLinkedList divide(MultiIntLinkedList firstList, MultiIntLinkedList secondList)  {
 		MultiIntLinkedList result = new MultiIntLinkedList("0");
 
@@ -378,8 +430,12 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
+	 * Calulates how far over the limit the value is (for an idividual node)
+	 * and returns the excess value.
 	 * @param val
+	 *   Value to be calulated
 	 * @return
+	 *   Excess carried over
 	 */
 	private static int carryOverValue(int val) {
 		val = val - (val % 1000);
@@ -410,6 +466,7 @@ public class MultiIntLinkedList implements Cloneable, Comparable<MultiIntLinkedL
 	}
 
 	/**
+	 * Toggle the positive value to the 'positive' boolean input
 	 * @param positive
 	 */
 	private void setIsPositive(boolean positive) {
